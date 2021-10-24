@@ -3,9 +3,9 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "npx nodemon src/server.js"
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dayjs": "^1.10.7",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jest": "^27.3.1",
     "joi": "^17.4.2",
