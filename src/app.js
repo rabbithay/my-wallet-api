@@ -2,7 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 
-// import * as transationController from './controllers/transations.js';
+import * as transactionController from './controllers/transactions.js';
 import * as userController from './controllers/users';
 
 const app = express();
@@ -19,17 +19,20 @@ app.post(
   userController.login,
 );
 
-app.get('/home', () => {
-  // transations screen
-});
+app.get(
+  '/home',
+  transactionController.getAll,
+);
 
-app.post('/income', () => {
-  // new income screen
-});
+app.post(
+  '/new-income',
+  transactionController.newTransaction,
+);
 
-app.post('/expense', () => {
-  // new expense screen
-});
+app.post(
+  '/new-expense',
+  transactionController.newTransaction,
+);
 
 // eslint-disable-next-line no-unused-vars
 app.use((error, request, response, next) => {

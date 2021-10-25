@@ -8,7 +8,7 @@ export async function checkEmailIsRepeated(email) {
 export async function createNewuser({ name, email, passwordHash }) {
   await connection.query(
     `INSERT INTO users
-        (name, email, token)
+        (name, email, password)
         VALUES ($1, $2, $3)`,
     [name, email, passwordHash],
   );
@@ -31,3 +31,4 @@ export async function login(userId, token) {
     [userId, token],
   );
 }
+//-----------

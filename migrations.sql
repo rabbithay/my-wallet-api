@@ -7,7 +7,7 @@ CREATE TABLE "users" (
 	"token" TEXT NOT NULL
 );
 
-CREATE TABLE "transations" (
+CREATE TABLE "transactions" (
 	"id" serial PRIMARY KEY,
 	"value" integer NOT NULL,
 	"description" TEXT NOT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE "sessions" (
 	"token" TEXT NOT NULL
 );
 
-ALTER TABLE "transations"
-ADD CONSTRAINT "fk_transations"
+ALTER TABLE "transactions"
+ADD CONSTRAINT "fk_transactions"
 FOREIGN KEY ("userId")
 REFERENCES "users"("id");
 
