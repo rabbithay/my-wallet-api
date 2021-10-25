@@ -5,7 +5,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js"
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js",
+    "test": "git init && npx jest --watch"
   },
   "keywords": [],
   "author": "",
