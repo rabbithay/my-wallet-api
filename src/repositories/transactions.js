@@ -17,3 +17,15 @@ export async function selectTransactions(userId) {
   );
   return transactionsList.rows;
 }
+
+export async function createTransaction({
+  value, description,
+  type, userId,
+}) {
+  await connection.query(
+    `INSERT INTO transactions
+    (value, description, type, "userId", date)
+    VALUES ($1, $2, $3, $4, now())`,
+    [value * 100, description, type, userId],
+  );
+}

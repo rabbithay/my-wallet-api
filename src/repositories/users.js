@@ -13,7 +13,7 @@ export async function createNewuser({ name, email, passwordHash }) {
     [name, email, passwordHash],
   );
 }
-//-----
+
 export async function checkEmail(email) {
   const user = await connection.query(`
     SELECT * FROM users
@@ -31,4 +31,3 @@ export async function login(userId, token) {
     [userId, token],
   );
 }
-//-----------

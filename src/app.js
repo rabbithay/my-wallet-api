@@ -2,7 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 
-import * as transactionController from './controllers/transactions.js';
+import * as transactionController from './controllers/transactions';
 import * as userController from './controllers/users';
 
 const app = express();
@@ -25,12 +25,12 @@ app.get(
 );
 
 app.post(
-  '/new-income',
+  '/income',
   transactionController.newTransaction,
 );
 
 app.post(
-  '/new-expense',
+  '/expense',
   transactionController.newTransaction,
 );
 

@@ -13,21 +13,25 @@ export async function getAll(req, res) {
 }
 
 export async function newTransaction(req, res) {
-  const type = (req.url).replace('/', '');
-  if (!(type === 'income') || !(type === 'expense')) return res.sendStatus(404);
+  const type = transactionService.urlIsValid(req.url);
+  if (!type) return res.sendStatus(404);
 
   const token = transactionService.checkToken(req.headers.authorization);
   if (!token) return res.sendStatus(405);
 
   const session = await transactionService.checkSessionIsAuthorized(token);
+  console.log(session);
   if (!session) return res.sendStatus(401);
 
-  const { error, body } = transactionService.validateNewTransaction(req.body, type);
+  const { error, value } = transactionService.validateNewTransaction(req.body);
   if (error) return res.sendStatus(422);
 
-  const { value, description } = body;
-
-  //  value | description |    date    |  type   | userId
-
+  const info = {
+    value: value.value,
+    description: value.description,
+    type,
+    userId: session.userId,
+  };
+  await transactionService.addNewTransaction(info);
   return res.sendStatus(201);
 }
