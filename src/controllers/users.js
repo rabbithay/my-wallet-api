@@ -4,7 +4,8 @@ export async function register(req, res) {
   const { error, value } = userService.validateNewUser(req.body);
   if (error) return res.sendStatus(422);
 
-  const emailIsRepeated = await userService.checkEmail(value.email);
+  const { email } = value;
+  const emailIsRepeated = await userService.checkEmail(email);
   if (emailIsRepeated) return res.sendStatus(409);
 
   await userService.register(value);

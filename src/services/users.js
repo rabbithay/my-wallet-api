@@ -19,8 +19,9 @@ export function validateNewUser(body) {
   return { error, value };
 }
 
-export async function checkEmail({ email }) {
-  return userRepository.checkEmailIsRepeated(email);
+export async function checkEmail(email) {
+  const emailIsRepeated = await userRepository.checkEmailIsRepeated(email);
+  return emailIsRepeated;
 }
 
 export function hash(password) {

@@ -20,7 +20,6 @@ export async function newTransaction(req, res) {
   if (!token) return res.sendStatus(405);
 
   const session = await transactionService.checkSessionIsAuthorized(token);
-  console.log(session);
   if (!session) return res.sendStatus(401);
 
   const { error, value } = transactionService.validateNewTransaction(req.body);

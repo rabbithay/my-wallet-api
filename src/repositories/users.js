@@ -2,7 +2,7 @@ import connection from '../database';
 
 export async function checkEmailIsRepeated(email) {
   const repeatedEmail = await connection.query('SELECT * FROM users WHERE email = $1', [email]);
-  return !!repeatedEmail.rows.length;
+  return repeatedEmail.rows[0];
 }
 
 export async function createNewuser({ name, email, passwordHash }) {
