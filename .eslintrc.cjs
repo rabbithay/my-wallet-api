@@ -12,10 +12,5 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
-    // "import/no-unresolved": "off",
-    // "import/order": "off",
-    // "import/no-named-as-default-member": "off",
-    // "@typescript-eslint/no-namespace": "off",
-    // "no-console": "off",
   },
 };
