@@ -5,8 +5,11 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js",
-    "test": "git init && npx jest --watch"
+    "start": "node --experimental-modules --es-module-specifier-resolution=node src/server.js",
+    "test": "NODE_ENV=test npx jest --passWithNoTests --noStackTrace --runInBand --silent",
+    "test:verbose": "NODE_ENV=test npx jest --passWithNoTests --noStackTrace --runInBand --verbose",
+    "test:watch": "NODE_ENV=test npx jest --passWithNoTests --noStackTrace --runInBand --watch",
+    "dev": "NODE_ENV=dev nodemon --experimental-modules --es-module-specifier-resolution=node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +35,8 @@
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.25.2"
+    "eslint-plugin-import": "^2.25.2",
+    "faker": "^5.5.3",
+    "nodemon": "^2.0.15"
   }
 }

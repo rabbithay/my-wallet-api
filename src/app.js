@@ -1,3 +1,4 @@
+import './setup';
 import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
@@ -17,6 +18,11 @@ app.post(
 app.post(
   '/login',
   userController.login,
+);
+
+app.post(
+  '/logout',
+  userController.logout,
 );
 
 app.get(

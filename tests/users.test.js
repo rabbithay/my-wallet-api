@@ -1,8 +1,9 @@
 /* eslint-disable no-undef */
+import '../src/setup';
 import 'jest';
 import supertest from 'supertest';
 import app from '../src/app';
-import connection from '../src/database';
+import connection from '../src/database/database';
 
 beforeEach(async () => {
   const userId = await connection.query("SELECT id FROM users WHERE email = 'bootcamp@respondeai.com'");
@@ -11,28 +12,28 @@ beforeEach(async () => {
   await connection.query("DELETE FROM users WHERE email = 'bootcamp@respondeai.com'");
 });
 
+const body = {
+  name: 'bootcamp', email: 'bootcamp@respondeai.com', password: 'banana', repeatPassword: 'banana',
+};
+const {
+  name, email, password,
+} = body;
+
 describe('POST /register', () => {
   it('returns status 422 for invalid params', async () => {
-    const body = {
-      name: 'bootcamp', email: 'bootcamp@respondeai.com', password: '', repeatPassword: 'lalala',
-    };
-    const result = await supertest(app).post('/register').send(body);
+    const result = await supertest(app).post('/register').send({
+      name, email, password: '', repeatPassword: 'lalala',
+    });
     expect(result.status).toEqual(422);
   });
 
   it('returns status 409 for duplicated email', async () => {
-    const body = {
-      name: 'bootcamp', email: 'bootcamp@respondeai.com', password: 'banana', repeatPassword: 'banana',
-    };
     await supertest(app).post('/register').send(body);
     const secondTry = await supertest(app).post('/register').send(body);
     expect(secondTry.status).toEqual(409);
   });
 
   it('returns status 201 for valid params', async () => {
-    const body = {
-      name: 'bootcamp', email: 'bootcamp@respondeai.com', password: 'banana', repeatPassword: 'banana',
-    };
     const result = await supertest(app).post('/register').send(body);
     expect(result.status).toEqual(201);
   });
@@ -40,25 +41,18 @@ describe('POST /register', () => {
 
 describe('POST /login', () => {
   it('returns status 422 for invalid params', async () => {
-    const body = {
-      email: 'bootcamp@respondeai.com', password: '',
-    };
-    const result = await supertest(app).post('/login').send(body);
+    const result = await supertest(app).post('/login').send({ email, password: '' });
     expect(result.status).toEqual(422);
   });
 
   it('returns status 401 for unauthorized params', async () => {
-    const body = { email: 'bootcamp@respondeai.com', password: 'melancia' };
-    const result = await supertest(app).post('/login').send(body);
+    const result = await supertest(app).post('/login').send({ email, password: 'melancia' });
     expect(result.status).toEqual(401);
   });
 
   it('returns status 200 for valid params', async () => {
-    const body = {
-      name: 'bootcamp', email: 'bootcamp@respondeai.com', password: 'banana', repeatPassword: 'banana',
-    };
     await supertest(app).post('/register').send(body);
-    const result = await supertest(app).post('/login').send({ email: 'bootcamp@respondeai.com', password: 'banana' });
+    const result = await supertest(app).post('/login').send({ email, password });
     expect(result.status).toEqual(200);
     expect(result.body).toEqual(
       expect.objectContaining({
