@@ -1,4 +1,4 @@
-import connection from '../database';
+import connection from '../database/database';
 
 export async function checkEmailIsRepeated(email) {
   const repeatedEmail = await connection.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -29,5 +29,13 @@ export async function login(userId, token) {
     ("userId", token)
     VALUES ($1, $2)`,
     [userId, token],
+  );
+}
+
+export async function logout(token) {
+  await connection.query(
+    `DELETE FROM sessions
+    WHERE token = $1`,
+    [token],
   );
 }
