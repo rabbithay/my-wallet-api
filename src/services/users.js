@@ -59,3 +59,7 @@ export async function login({ email, password }) {
     token, id, email, name,
   };
 }
+
+export async function logout(token) {
+  await userRepository.logout(token);
+}

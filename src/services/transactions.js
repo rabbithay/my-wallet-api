@@ -15,7 +15,7 @@ export async function getAll(userId) {
 
 export function urlIsValid(url) {
   const type = (url).replace('/', '');
-  return ((type === 'income') || (type === 'expense')) ? type : false;
+  return ((type === 'income') || (type === 'expense')) && type;
 }
 
 export function validateNewTransaction(body) {

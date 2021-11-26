@@ -23,3 +23,9 @@ export async function login(req, res) {
 
   return res.status(200).send(success);
 }
+
+export async function logout(req, res) {
+  const { token } = req.body;
+  await userService.logout(token);
+  return res.sendStatus(200);
+}
