@@ -16,7 +16,7 @@
 
 ## 🛰️ Deployment
 
-<p align="center"><a href="https://github.com/rabbithay/my-wallet" target='_blank'>My Wallet</a></p>
+<p align="center"><a href="https://my-wallet-puce.vercel.app/" target='_blank'>My Wallet</a></p>
 
 <br>
 
