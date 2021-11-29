@@ -1,31 +1,35 @@
-import joi from 'joi';
 import bcrypt from 'bcrypt';
-import * as uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import * as userRepository from '../repositories/users';
+import * as schema from '../schemas/userSchemas';
 
-export function validateNewUser(body) {
-  const schema = joi.object({
-    name: joi.string().min(3).max(30)
-      .required(),
-    email: joi.string().email({
-      minDomainSegments: 2,
-      tlds: { allow: ['com', 'net'] },
-    }),
-    password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-    repeatPassword: joi.ref('password'),
+export function validateNewUser({
+  name, email, password, repeatPassword,
+}) {
+  const invalidUserInfo = schema.validalidateNewUserInfo({
+    name, email, password, repeatPassword,
   });
-  const { error, value } = schema.validate(body);
-  return { error, value };
+  return !!invalidUserInfo;
+}
+
+function hash(password) {
+  return bcrypt.hashSync(password, 13);
+}
+
+function checkPasswordsMatch({ password, hashedPassword }) {
+  const passwordsMatch = bcrypt.compareSync(password, hashedPassword);
+  return passwordsMatch;
+}
+
+function generateToken() {
+  const token = uuid();
+  return token;
 }
 
 export async function checkEmail(email) {
-  const emailIsRepeated = await userRepository.checkEmailIsRepeated(email);
+  const emailIsRepeated = await userRepository.getEmailById(email);
   return emailIsRepeated;
-}
-
-export function hash(password) {
-  return bcrypt.hashSync(password, 13);
 }
 
 export async function register({ name, email, password }) {
@@ -33,28 +37,24 @@ export async function register({ name, email, password }) {
   await userRepository.createNewuser({ name, email, passwordHash });
 }
 
-export function validateUserLogin(body) {
-  const schema = joi.object({
-    email: joi.string().email({
-      minDomainSegments: 2,
-      tlds: { allow: ['com', 'net'] },
-    }),
-    password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+export function validateUserLogin({ password, email }) {
+  const invalidLoginInfo = schema.validateLoginInfo({
+    email, password,
   });
-  const { error, value } = schema.validate(body);
-  return { error, value };
+  return !!invalidLoginInfo;
 }
 
 export async function login({ email, password }) {
-  const user = await userRepository.checkEmail(email);
+  const user = await userRepository.getEmailById(email);
   if (!user) return false;
 
   const { id, name } = user;
   const hashedPassword = user.password;
-  if (!(bcrypt.compareSync(password, hashedPassword))) return false;
+  const passwordIsCorrect = checkPasswordsMatch({ password, hashedPassword });
+  if (!passwordIsCorrect) return false;
 
-  const token = uuid.v4();
-  await userRepository.login(id, token);
+  const token = generateToken();
+  await userRepository.login({ userId: id, token });
   return {
     token, id, email, name,
   };
