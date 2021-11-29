@@ -73,7 +73,6 @@ $ npm test
 
     in case of success: status 201
 
-
 ### `POST /login`
 
 #### Request
@@ -98,7 +97,6 @@ $ npm test
             "token": "ad52a74s3f54a32d",
         }
 
-
 ### `POST /logout`
 
 #### Request
@@ -112,7 +110,6 @@ $ npm test
 #### Response
 
     in case of success: status 200
-
 
 ### `GET /home`
 
@@ -137,7 +134,6 @@ $ npm test
             type: "expense",            
             userId: 1
         }
-
 
 ### `POST /income or /expense`
 
@@ -166,11 +162,9 @@ $ npm test
 
     in case of success: status 201
 
-
 <br>
 
 ## 🧮 Tech Stack
-
 
 <p align="center">
     <img alt="javascript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"/>
@@ -199,4 +193,3 @@ $ npm test
 </p>
 
 <br><br>
-
